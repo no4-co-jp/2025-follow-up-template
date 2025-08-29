@@ -1,6 +1,6 @@
 services:
   app:
-    image: mcr.microsoft.com/devcontainers/typescript-node:1-20
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-22
     working_dir: /workspace
     command: sleep infinity
     volumes:
@@ -16,9 +16,11 @@ services:
       - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_HOST: mysql
       MYSQL_DATABASE: todo
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      MYSQL_PORT: 3306
     volumes:
       - mysql-data:/var/lib/mysql
       - ./script:/docker-entrypoint-initdb.d

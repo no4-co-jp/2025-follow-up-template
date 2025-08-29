@@ -1,21 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { fetchUsers } from './apis/user'
 import { Table, Title, Container } from '@mantine/core'
-import type { User } from '@/types'
+import { useSample } from '@/app/hooks/useSample'
 
 export default function Page() {
-  const [users, setUsers] = useState<User[]>([])
+  const { users, error, isLoading } = useSample()
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      const data = await fetchUsers()
-      setUsers(data)
-    }
-
-    loadUsers()
-  }, [])
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error fetching users: {error.message}</div>
 
   return (
     <Container size='md' mt='xl'>
@@ -33,7 +25,7 @@ export default function Page() {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <Table.Tr key={user.id}>
               <Table.Td>{user.id}</Table.Td>
               <Table.Td>{user.name}</Table.Td>

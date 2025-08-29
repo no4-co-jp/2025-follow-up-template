@@ -1,5 +1,5 @@
-import { pool } from './db'
-import type { RowDataPacket } from '@fastify/mysql'
+import { pool } from '@/db'
+import type { RowDataPacket } from 'mysql2'
 import type { User } from '@/types'
 
 export const getAllUsers = async (): Promise<User[]> => {

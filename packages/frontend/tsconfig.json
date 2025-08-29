@@ -1,16 +1,11 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": [
-      "ES2023",
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "ESNext"],
     "noEmit": true,
     "jsx": "preserve",
     "plugins": [
@@ -21,10 +16,7 @@
     "allowJs": true,
     "incremental": true,
     "paths": {
-      "@/*": [
-        "./src/*",
-        "../shared/*"
-      ]
+      "@/*": ["./src/*", "../shared/*", "./src/app/*"]
     }
   },
   "include": [
@@ -34,7 +26,5 @@
     ".next/types/**/*.ts",
     "../shared"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
