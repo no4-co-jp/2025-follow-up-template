@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 export default function Page() {
-  console.log(process.env.MYSQL_HOST)
   return (
     <>
       <h1>Hello, Next.js!</h1>
