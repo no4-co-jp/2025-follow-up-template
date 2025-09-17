@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "fastify": "^5.5.0",
+    "@fastify/cors": "^11.1.0",
+    "mysql2": "^3.14.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.4"
+  }
+}
