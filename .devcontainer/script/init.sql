@@ -1,9 +1,9 @@
--- サンプルテーブル
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  e_mail VARCHAR(100) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Todoリスト用テーブル
+CREATE TABLE todo (
+  id INT AUTO_INCREMENT PRIMARY KEY,         -- 番号
+  title VARCHAR(100) NOT NULL,               -- タイトル
+  content VARCHAR(500) NOT NULL,             -- 内容
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,          -- 作成日
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- 更新日
+  priority VARCHAR(10) NOT NULL             -- 優先度
 );
--- サンプルデータ
-INSERT INTO users (name, e_mail) VALUES ('Taro Yamada', 'taro.yamada@localhost.com'), ('Saki Abe', 'saki.abe@localhost.com');

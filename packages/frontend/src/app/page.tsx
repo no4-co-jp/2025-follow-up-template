@@ -1,10 +1,88 @@
+'use client'
+
+import { Button, Table, Title, Container } from '@mantine/core'
+import { useTodos } from '@/app/hooks/useTodo'
 import Link from 'next/link'
+import { deleteTodo } from '@/lib/apis/deleteTodo'
 
 export default function Page() {
+  const { todos, error, isLoading, mutate } = useTodos()
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error fetching todos: {error.message}</div>
+
+  const formatDateTime = (dateString: string): string => {
+    const date = new Date(dateString)
+    const yyyy = date.getFullYear()
+    const MM = String(date.getMonth() + 1).padStart(2, '0')
+    const dd = String(date.getDate()).padStart(2, '0')
+    const HH = String(date.getHours()).padStart(2, '0')
+    const mm = String(date.getMinutes()).padStart(2, '0')
+    const ss = String(date.getSeconds()).padStart(2, '0')
+    return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`
+  }
+
+  const handleDelete = async (id: number) => {
+    const ok = confirm(`id.${id} のTodoリストを削除しますか？`)
+    if (!ok) return
+
+    await deleteTodo(id)
+    mutate()
+  }
+
+  const getColor = (priority: string) => {
+    if (priority === '高') return 'rgb(244, 164, 169)'
+    if (priority === '中') return 'rgb(255, 255, 188)'
+    if (priority === '低') return 'rgb(168, 238, 249)'
+  }
+
   return (
-    <>
-      <h1>Hello, Next.js!</h1>
-      <Link href='/sample'>Sample画面へ</Link>
-    </>
+    <Container size='md' mt='xl'>
+      <Title order={2} mb='md'>
+        ToDoリスト
+      </Title>
+
+      <div>
+        <Link href='/add'>
+          <Button variant='filled'>追加</Button>
+        </Link>
+      </div>
+
+      <Table striped highlightOnHover withTableBorder>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>番号</Table.Th>
+            <Table.Th>タイトル</Table.Th>
+            <Table.Th>内容</Table.Th>
+            <Table.Th>作成日</Table.Th>
+            <Table.Th>更新日</Table.Th>
+            <Table.Th>優先度</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {todos?.map((todo) => (
+            <Table.Tr
+              key={todo.id}
+              style={{ backgroundColor: getColor(todo.priority) }}
+            >
+              <Table.Td>{todo.id}</Table.Td>
+              <Table.Td>{todo.title}</Table.Td>
+              <Table.Td>{todo.content}</Table.Td>
+              <Table.Td>{formatDateTime(todo.createdAt)}</Table.Td>
+              <Table.Td>{formatDateTime(todo.updatedAt)}</Table.Td>
+              <Table.Td>{todo.priority}</Table.Td>
+              <Table.Td>
+                <Link href={`/edit?id=${todo.id}`}>
+                  <Button variant='filled'>編集</Button>
+                </Link>
+                <Button variant='filled' onClick={() => handleDelete(todo.id)}>
+                  削除
+                </Button>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Container>
   )
 }
